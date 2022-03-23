@@ -12,7 +12,7 @@ create_table = "CREATE TABLE users (id int, username text, password text)"
 cursor.execute(create_table)
 
 # creating a user (tuple)
-user = (1, 'Test', 'asdf')
+user = (1, 'Test 1', 'asdf')
 
 # a query to insert a user with its values
 insert_query = "INSERT INTO users VALUES (?, ?, ?)"
