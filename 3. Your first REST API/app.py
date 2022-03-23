@@ -107,4 +107,4 @@ def create_store_item(name):
     
 
 if __name__ == __name__:
-    app.run(port=3000)
+    app.run(port=5000, debug=True)
