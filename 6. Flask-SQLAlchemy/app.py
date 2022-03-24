@@ -6,8 +6,8 @@ from flask_jwt import JWT
 
 from security import authenticate, identity as identity_function
 
-from user import UserRegister
-from item import Item, ItemList
+from resources.user import UserRegister
+from resources.item import Item, ItemList
 
 app = Flask(__name__)
 app.secret_key = 'SECRET_KEY'
@@ -15,7 +15,6 @@ api = Api(app)
 
 app.config['JWT_AUTH_URL_RULE'] = '/login'  # changing the url to the auth endpoint /login
 app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds = 1800)  # config JWT to expire within half an hour
-# app.config['JWT_AUTH_USERNAME_KEY'] = 'email'  # config JWT auth key name to be 'email' instead of default 'username'
 
 jwt = JWT(app, authenticate, identity_function)  # creating the JWT instance
 
