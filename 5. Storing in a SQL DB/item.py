@@ -64,12 +64,19 @@ class Item(Resource):
         return item
 
     def delete(self, name):
-        global items
-        # getting all the items OTHER THAN THE ONE TO BE DELETED
-        # and saving to the global items list
-        items = list(filter(lambda x: x['name'] != name, items))
-        return {'message': 'Item deleted'}
+        if self.find_by_name(name):
+            connection = sqlite3.connect('data.db')
+            cursor = connection.cursor()
+            
+            query = "DELETE FROM items WHERE name=?"
+            cursor.execute(query, (name,))
+            
+            connection.commit()
+            connection.close()
+            
+            return {'message': 'Item successfully deleted.'}, 200
 
+        return {'message': 'Nothing to delete, item not found.'}, 404
 
 class ItemList(Resource):
     def get(self):
