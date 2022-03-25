@@ -13,6 +13,8 @@ app = Flask(__name__)
 app.secret_key = 'SECRET_KEY'
 api = Api(app)
 
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 app.config['JWT_AUTH_URL_RULE'] = '/login'  # changing the url to the auth endpoint /login
 app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds = 1800)  # config JWT to expire within half an hour
 
@@ -40,4 +42,7 @@ api.add_resource(ItemList, '/items')
 api.add_resource(UserRegister, '/register')
 
 if __name__ == '__main__':
+    # circular imports because our Models also import DB
+    from db import db
+    db.init_app(app)
     app.run(port=5000, debug=True)
