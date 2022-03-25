@@ -14,7 +14,7 @@ app.secret_key = 'SECRET_KEY'
 api = Api(app)
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['JWT_AUTH_URL_RULE'] = '/login'  # changing the url to the auth endpoint /login
 app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds = 1800)  # config JWT to expire within half an hour
 
