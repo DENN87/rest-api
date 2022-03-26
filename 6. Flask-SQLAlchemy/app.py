@@ -2,7 +2,7 @@ import os
 from flask import Flask, jsonify
 from flask_restful import Api
 from flask_jwt import JWT
-from security import authenticate, identity as identity_function
+from security import authenticate, identity
 from resources.user import User, UserRegister
 from resources.item import Item, ItemList
 from resources.store import Store, StoreList
@@ -24,7 +24,7 @@ def create_tables():
     db.create_all()
 
 
-jwt = JWT(app, authenticate, identity_function)  # creating the JWT instance
+jwt = JWT(app, authenticate, identity)  # creating the JWT instance, by default: /auth
 
 # customize JWT auth response, include user_id in response body
 @jwt.auth_response_handler
