@@ -26,6 +26,24 @@ class UserRegister(Resource):
         
         return {"message": "User created successfully."}, 201
 
+
+class User(Resource):
+    @classmethod
+    def get(cls, user_id):
+        user = UserModel.find_by_id(user_id)
+        if not user:
+            return {'message': 'User not found.'}, 404
+        return user.json()
+
+    @classmethod
+    def delete(cls, user_id):
+        user = UserModel.find_by_id(user_id)
+        if not user:
+            return {'message': 'User not found.'}, 404
+        user.delete_from_db()
+        return {'message': 'User was deleted.'}, 200
+        
+
 # TO IMPLEMENT FOR ADMIN USER ONLY
 # from flask_jwt import jwt_required, current_identity
 # class User(Resource):
