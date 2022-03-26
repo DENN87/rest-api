@@ -13,12 +13,12 @@ class UserModel(db.Model):
     
     def save_to_db(self):
         db.session.add(self)
-        db.session.close()
+        db.session.commit()
     
     # retrieve user object by username
     @classmethod
     def find_by_username(cls, username):
-        return cls.query.filter_by(username=username).first()  # SELECT * FROM __tablename__(items) WHERE name=name
+        return cls.query.filter_by(username=username).first()
     
     # retrieve user object by id
     @classmethod

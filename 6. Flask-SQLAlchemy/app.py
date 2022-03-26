@@ -18,6 +18,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['JWT_AUTH_URL_RULE'] = '/login'  # changing the url to the auth endpoint /login
 app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds = 1800)  # config JWT to expire within half an hour
 
+@app.before_first_request
+def create_tables():
+    db.create_all()
+
+
 jwt = JWT(app, authenticate, identity_function)  # creating the JWT instance
 
 # customize JWT auth response, include user_id in response body
