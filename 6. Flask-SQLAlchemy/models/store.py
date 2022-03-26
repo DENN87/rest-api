@@ -9,7 +9,7 @@ class StoreModel(db.Model):
     
     items = db.relationship('ItemModel', lazy='dynamic')
     
-    def __init__(self, name, price):
+    def __init__(self, name):
         self.name = name
     
     def json(self):
@@ -17,7 +17,7 @@ class StoreModel(db.Model):
     
     @classmethod
     def find_by_name(cls, name):
-        return cls.query.filter_by(name = name).first()
+        return cls.query.filter_by(name=name).first()
     
     def save_to_db(self):
         db.session.add(self)
