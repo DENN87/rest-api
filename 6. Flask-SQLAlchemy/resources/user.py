@@ -1,9 +1,9 @@
 import hmac
 
-from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity, jwt_required
+from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt, get_jwt_identity, jwt_required
 from flask_restful import Resource, reqparse
 from models.user import UserModel
-
+from blocklist import BLOCKLIST
 
 _user_parser = reqparse.RequestParser()
 _user_parser.add_argument('username',
@@ -64,6 +64,14 @@ class UserLogin(Resource):
         
         return {'message': 'Invalid credentials.'}, 401
 
+
+class UserLogout(Resource):
+    @jwt_required()
+    def post(self):
+        jti = get_jwt()['jti']
+        BLOCKLIST.add(jti)
+        return {'message': 'Successfully logged out.'}, 200
+    
 
 class TokenRefresh(Resource):
     @jwt_required(refresh=True)

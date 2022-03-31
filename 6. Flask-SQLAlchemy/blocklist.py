@@ -1,1 +1,1 @@
-BLOCKLIST = {2}
+BLOCKLIST = set()
