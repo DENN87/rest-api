@@ -7,11 +7,12 @@ from resources.user import User, UserLogin, UserRegister, TokenRefresh
 from resources.item import Item, ItemList
 from resources.store import Store, StoreList
 from db import db
+from blocklist import BLOCKLIST
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///data.db')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROPAGATE_EXCEPTIONS'] = True
 
 app.secret_key = 'SECRET_KEY'
@@ -25,6 +26,7 @@ def create_tables():
 
 jwt = JWTManager(app)
 
+
 # JWT Claims
 @jwt.additional_claims_loader
 def add_claims_to_jwt(indentity):
@@ -32,10 +34,15 @@ def add_claims_to_jwt(indentity):
         return {'is_admin': True}
     return {'is_admin': False}
 
+@jwt.token_in_blocklist_loader
+def check_if_token_is_revoked(jwt_header, jwt_payload):
+    return jwt_payload['sub'] in BLOCKLIST
+
 @jwt.expired_token_loader
-def expired_token_callback():
+def expired_token_callback(jwt_header, jwt_payload):
     return jsonify({
         'description': 'The token has expired.',
+        'user_id': jwt_payload['sub'],
         'error': 'token_expired'
         }), 401
 
@@ -54,16 +61,18 @@ def missing_token_callback(error):
         }), 401
 
 @jwt.needs_fresh_token_loader
-def token_not_fresh_callback():
+def token_not_fresh_callback(jwt_header, jwt_payload):
     return jsonify({
         'description': 'The token is not fresh.',
+        'user_id': jwt_payload['sub'],
         'error': 'fresh_token_required'
         }), 401
 
 @jwt.revoked_token_loader
-def revoked_token_callback():
+def revoked_token_callback(jwt_header, jwt_payload):
     return jsonify({
         'description': 'The token has been revoked.',
+        'user_id': jwt_payload['sub'],
         'error': 'token_revoked'
         }), 401
 
@@ -79,4 +88,4 @@ api.add_resource(TokenRefresh, '/refresh')
 
 if __name__ == '__main__':
     db.init_app(app)
-    app.run(port=5000, debug=True)
+    app.run(port = 5000, debug = True)
