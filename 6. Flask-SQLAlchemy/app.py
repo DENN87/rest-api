@@ -25,6 +25,13 @@ def create_tables():
 
 jwt = JWTManager(app)
 
+# JWT Claims
+@jwt.additional_claims_loader
+def add_claims_to_jwt(indentity):
+    if indentity == 1:
+        return {'is_admin': True}
+    return {'is_admin': False}
+
 
 api.add_resource(Store, '/store/<string:name>')
 api.add_resource(StoreList, '/stores')
