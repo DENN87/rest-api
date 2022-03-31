@@ -72,10 +72,3 @@ class TokenRefresh(Resource):
         new_token = create_access_token(identity = current_user, fresh = False)
         return {'access_token': new_token}, 200
 
-# TO IMPLEMENT FOR ADMIN USER ONLY
-# from flask_jwt import jwt_required, current_identity
-# class User(Resource):
-#     @jwt_required()
-#     def get(self):   # view all users
-#         user = current_identity
-#         # then implement admin auth method
