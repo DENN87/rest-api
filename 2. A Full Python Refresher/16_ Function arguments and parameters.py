@@ -5,7 +5,6 @@ Function arguments and parameters
 # -- Example 1 --
 print("# -- Example 1 --")
 
-
 def add(x, y):
     result = x + y
     print(f"{x} + {y} = {result}")
@@ -16,7 +15,6 @@ add(5, 3)
 
 # -- Example 2 --
 print("# -- Example 2 --")
-
 
 def say_hello(firstname, lastname):
     print(f"Hello, {firstname} {lastname}")
