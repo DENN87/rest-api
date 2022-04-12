@@ -1,5 +1,5 @@
 """
-class inheritance
+class inheritance - allows one class to take some methods and properties from another class
 """
 
 
