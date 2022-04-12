@@ -28,6 +28,9 @@ class Store:
         self.name = name
         self.items = []
 
+    def __str__(self):
+        return f"{self.name}"
+
     def add_item(self, name, price):
         self.items.append({"name": name, "price": price})
 
