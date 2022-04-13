@@ -5,7 +5,6 @@ Using Python to build simple backend REST APIs with Flask, Flask-RESTful, and Fl
 ###### Tutorial can be found at: [REST APIs with Flask and Python](https://go.tecla.do/rest-apis-sale)
 
 ### Course content:
-
 ---
 
 ```
