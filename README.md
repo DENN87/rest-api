@@ -1,4 +1,4 @@
-## Udemy - REST APIs with Flask and Python
+## REST APIs with Flask and Python
 
 Using Python to build simple backend REST APIs with Flask, Flask-RESTful, and Flask-SQLAlchemy.
 
